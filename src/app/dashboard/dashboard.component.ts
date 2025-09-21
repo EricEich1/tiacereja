@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,5 +31,15 @@ export class DashboardComponent implements OnInit {
       temas: 8,
       tiposEvento: 5
     };
+  }
+
+  showComingSoon(feature: string) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Em breve!',
+      text: `A funcionalidade "${feature}" estará disponível em breve.`,
+      confirmButtonText: 'Entendi',
+      confirmButtonColor: '#667eea'
+    });
   }
 }

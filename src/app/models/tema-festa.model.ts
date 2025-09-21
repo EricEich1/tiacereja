@@ -2,8 +2,17 @@ export interface TemaFesta {
   id?: number;
   nome: string;
   descricao?: string;
-  precoBase?: number;
+  corPrincipal: string;
+  corSecundaria?: string;
   ativo: boolean;
-  dataCriacao?: Date;
-  imagem?: string;
+  precoBase?: number;
+}
+
+export interface TemaFestaRequest {
+  nome: string;
+  descricao?: string;
+  corPrincipal: string;
+  corSecundaria?: string;
+  ativo: boolean;
+  precoBase?: number;
 }

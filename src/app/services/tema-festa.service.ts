@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TemaFesta } from '../models/tema-festa.model';
+import { TemaFesta, TemaFestaRequest } from '../models/tema-festa.model';
 import { API_CONFIG } from '../shared/api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TemaFestaService {
-  private readonly baseUrl = `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.temas}`;
+  private readonly baseUrl = `${API_CONFIG.baseUrl}/api/temas`;
 
   constructor(private http: HttpClient) { }
 
@@ -22,25 +22,25 @@ export class TemaFestaService {
     return this.http.get<TemaFesta>(`${this.baseUrl}/${id}`);
   }
 
-  // Salvar novo tema
-  salvar(tema: TemaFesta): Observable<TemaFesta> {
+  // Salvar tema
+  salvar(tema: TemaFestaRequest): Observable<TemaFesta> {
     return this.http.post<TemaFesta>(this.baseUrl, tema);
   }
 
   // Atualizar tema
-  atualizar(id: number, tema: TemaFesta): Observable<TemaFesta> {
+  atualizar(id: number, tema: TemaFestaRequest): Observable<TemaFesta> {
     return this.http.put<TemaFesta>(`${this.baseUrl}/${id}`, tema);
   }
 
-  // Deletar tema
-  deletar(id: number): Observable<void> {
+  // Excluir tema
+  excluir(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  // Buscar temas por nome
-  buscarPorNome(nome: string): Observable<TemaFesta[]> {
-    const params = new HttpParams().set('nome', nome);
-    return this.http.get<TemaFesta[]>(`${this.baseUrl}/buscar`, { params });
+  // Buscar temas
+  buscar(nome?: string): Observable<TemaFesta[]> {
+    const params = nome ? `?nome=${nome}` : '';
+    return this.http.get<TemaFesta[]>(`${this.baseUrl}/buscar${params}`);
   }
 
   // Buscar temas ativos
