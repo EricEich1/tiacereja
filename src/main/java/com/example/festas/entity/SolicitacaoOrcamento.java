@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 public class SolicitacaoOrcamento {
 
     @Id
@@ -59,4 +57,38 @@ public class SolicitacaoOrcamento {
     )
     @JsonIgnoreProperties("solicitacoes")
     private List<TemaFesta> temas;
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public Cliente getCliente() { return cliente; }
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
+    
+    public LocalDate getDataEvento() { return dataEvento; }
+    public void setDataEvento(LocalDate dataEvento) { this.dataEvento = dataEvento; }
+    
+    public Endereco getEndereco() { return endereco; }
+    public void setEndereco(Endereco endereco) { this.endereco = endereco; }
+    
+    public Integer getQuantidadeConvidados() { return quantidadeConvidados; }
+    public void setQuantidadeConvidados(Integer quantidadeConvidados) { this.quantidadeConvidados = quantidadeConvidados; }
+    
+    public Boolean getPrecisaMesasCadeiras() { return precisaMesasCadeiras; }
+    public void setPrecisaMesasCadeiras(Boolean precisaMesasCadeiras) { this.precisaMesasCadeiras = precisaMesasCadeiras; }
+    
+    public TipoEvento getTipoEvento() { return tipoEvento; }
+    public void setTipoEvento(TipoEvento tipoEvento) { this.tipoEvento = tipoEvento; }
+    
+    public BigDecimal getValorPretendido() { return valorPretendido; }
+    public void setValorPretendido(BigDecimal valorPretendido) { this.valorPretendido = valorPretendido; }
+    
+    public String getStatusOrcamento() { return statusOrcamento; }
+    public void setStatusOrcamento(String statusOrcamento) { this.statusOrcamento = statusOrcamento; }
+    
+    public LocalDateTime getDataCriacao() { return dataCriacao; }
+    public void setDataCriacao(LocalDateTime dataCriacao) { this.dataCriacao = dataCriacao; }
+    
+    public List<TemaFesta> getTemas() { return temas; }
+    public void setTemas(List<TemaFesta> temas) { this.temas = temas; }
 }

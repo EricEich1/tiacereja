@@ -9,8 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 public class Cliente {
 
     @Id
@@ -28,4 +26,20 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("cliente")
     private List<SolicitacaoOrcamento> solicitacoes;
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    
+    public String getTelefone() { return telefone; }
+    public void setTelefone(String telefone) { this.telefone = telefone; }
+    
+    public String getStatusCadastro() { return statusCadastro; }
+    public void setStatusCadastro(String statusCadastro) { this.statusCadastro = statusCadastro; }
+    
+    public List<SolicitacaoOrcamento> getSolicitacoes() { return solicitacoes; }
+    public void setSolicitacoes(List<SolicitacaoOrcamento> solicitacoes) { this.solicitacoes = solicitacoes; }
 }
