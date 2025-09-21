@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ClienteService } from '../services/cliente.service';
+import { EnderecoService } from '../services/endereco.service';
+import { TemaFestaService } from '../services/tema-festa.service';
+import { TipoEventoService } from '../services/tipo-evento.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,20 +21,59 @@ export class DashboardComponent implements OnInit {
     tiposEvento: 0
   };
 
+  constructor(
+    private clienteService: ClienteService,
+    private enderecoService: EnderecoService,
+    private temaFestaService: TemaFestaService,
+    private tipoEventoService: TipoEventoService
+  ) {}
+
   ngOnInit() {
-    // Simular carregamento de estatísticas
     this.loadStats();
   }
 
   loadStats() {
-    // Por enquanto, valores simulados
-    // Aqui você integraria com os services para buscar dados reais
-    this.stats = {
-      clientes: 25,
-      solicitacoes: 12,
-      temas: 8,
-      tiposEvento: 5
-    };
+    // Carregar dados reais dos serviços
+    this.clienteService.buscarTodos().subscribe({
+      next: (clientes) => {
+        this.stats.clientes = clientes.length;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar clientes:', error);
+        this.stats.clientes = 0;
+      }
+    });
+
+    this.enderecoService.buscarTodos().subscribe({
+      next: (enderecos) => {
+        // Endereços não são solicitacoes, mas vamos usar como exemplo
+        this.stats.solicitacoes = enderecos.length;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar endereços:', error);
+        this.stats.solicitacoes = 0;
+      }
+    });
+
+    this.temaFestaService.buscarTodos().subscribe({
+      next: (temas) => {
+        this.stats.temas = temas.length;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar temas:', error);
+        this.stats.temas = 0;
+      }
+    });
+
+    this.tipoEventoService.buscarTodos().subscribe({
+      next: (tiposEvento) => {
+        this.stats.tiposEvento = tiposEvento.length;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar tipos de evento:', error);
+        this.stats.tiposEvento = 0;
+      }
+    });
   }
 
   showComingSoon(feature: string) {
