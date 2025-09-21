@@ -16,7 +16,7 @@
         <input 
           type="text" 
           class="form-control" 
-          placeholder="Buscar por logradouro, cidade ou bairro..."
+          placeholder="Buscar por rua, cidade ou bairro..."
           [(ngModel)]="termoBusca"
           (input)="filtrarEnderecos()"
         >
@@ -53,7 +53,7 @@
         <div class="endereco-card-header">
           <h5 class="endereco-card-title">
             <i class="fas fa-map-marker-alt me-2"></i>
-            {{ endereco.logradouro }}, {{ endereco.numero }}
+            {{ endereco.rua }}, {{ endereco.numero }}
           </h5>
           <div class="endereco-card-actions">
             <a [routerLink]="['/enderecos/editar', endereco.id]" class="btn btn-sm btn-outline-primary">

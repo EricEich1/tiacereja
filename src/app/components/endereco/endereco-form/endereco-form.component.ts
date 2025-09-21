@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class EnderecoFormComponent implements OnInit {
   endereco: EnderecoRequest = {
-    logradouro: '',
+    rua: '',
     numero: '',
     complemento: '',
     bairro: '',
@@ -48,7 +48,7 @@ export class EnderecoFormComponent implements OnInit {
     this.enderecoService.buscarPorId(this.enderecoId!).subscribe({
       next: (endereco) => {
         this.endereco = {
-          logradouro: endereco.logradouro,
+          rua: endereco.rua,
           numero: endereco.numero,
           complemento: endereco.complemento || '',
           bairro: endereco.bairro,
@@ -119,10 +119,23 @@ export class EnderecoFormComponent implements OnInit {
         error: (error) => {
           this.loading = false;
           console.error('Erro ao salvar endereço:', error);
+          console.error('Dados enviados:', this.endereco);
+          
+          let mensagemErro = 'Não foi possível salvar o endereço. Tente novamente.';
+          
+          if (error.status === 400) {
+            mensagemErro = 'Dados inválidos. Verifique se todos os campos obrigatórios estão preenchidos corretamente.';
+          } else if (error.status === 0) {
+            mensagemErro = 'Não foi possível conectar ao servidor. Verifique se o backend está rodando.';
+          } else if (error.error && error.error.message) {
+            mensagemErro = error.error.message;
+          }
+          
           Swal.fire({
             icon: 'error',
             title: 'Erro ao salvar endereço',
-            text: 'Não foi possível salvar o endereço. Tente novamente.'
+            text: mensagemErro,
+            footer: `Status: ${error.status || 'N/A'}`
           });
         }
       });
@@ -130,8 +143,8 @@ export class EnderecoFormComponent implements OnInit {
   }
 
   validarFormulario(): boolean {
-    if (!this.endereco.logradouro.trim()) {
-      Swal.fire('Atenção!', 'Logradouro é obrigatório.', 'warning');
+    if (!this.endereco.rua.trim()) {
+      Swal.fire('Atenção!', 'Rua é obrigatória.', 'warning');
       return false;
     }
 
@@ -157,6 +170,13 @@ export class EnderecoFormComponent implements OnInit {
 
     if (!this.endereco.cep.trim()) {
       Swal.fire('Atenção!', 'CEP é obrigatório.', 'warning');
+      return false;
+    }
+
+    // Validar formato do CEP
+    const cepRegex = /^\d{5}-?\d{3}$/;
+    if (!cepRegex.test(this.endereco.cep.replace(/\D/g, ''))) {
+      Swal.fire('Atenção!', 'CEP deve ter o formato 12345-678 ou 12345678.', 'warning');
       return false;
     }
 

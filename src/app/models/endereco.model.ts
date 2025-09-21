@@ -1,6 +1,6 @@
 export interface Endereco {
   id?: number;
-  logradouro: string;
+  rua: string;
   numero: string;
   complemento?: string;
   bairro: string;
@@ -11,7 +11,7 @@ export interface Endereco {
 }
 
 export interface EnderecoRequest {
-  logradouro: string;
+  rua: string;
   numero: string;
   complemento?: string;
   bairro: string;

@@ -51,7 +51,7 @@ export class EnderecoListComponent implements OnInit {
     }
 
     this.enderecosFiltrados = this.enderecos.filter(endereco =>
-      endereco.logradouro.toLowerCase().includes(this.termoBusca.toLowerCase()) ||
+      endereco.rua.toLowerCase().includes(this.termoBusca.toLowerCase()) ||
       endereco.cidade.toLowerCase().includes(this.termoBusca.toLowerCase()) ||
       endereco.bairro.toLowerCase().includes(this.termoBusca.toLowerCase())
     );
@@ -84,6 +84,6 @@ export class EnderecoListComponent implements OnInit {
   }
 
   formatarEndereco(endereco: Endereco): string {
-    return `${endereco.logradouro}, ${endereco.numero}${endereco.complemento ? ', ' + endereco.complemento : ''} - ${endereco.bairro}, ${endereco.cidade}/${endereco.estado} - CEP: ${endereco.cep}`;
+    return `${endereco.rua}, ${endereco.numero}${endereco.complemento ? ', ' + endereco.complemento : ''} - ${endereco.bairro}, ${endereco.cidade}/${endereco.estado} - CEP: ${endereco.cep}`;
   }
 }

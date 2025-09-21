@@ -24,6 +24,7 @@ export class EnderecoService {
 
   // Salvar endereço
   salvar(endereco: EnderecoRequest): Observable<Endereco> {
+    console.log('Enviando endereço:', endereco);
     return this.http.post<Endereco>(this.baseUrl, endereco);
   }
 
