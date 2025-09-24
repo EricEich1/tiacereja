@@ -6,6 +6,9 @@
   padding: 1rem 0;
   transition: var(--transition);
   min-height: 70px;
+  position: relative;
+  z-index: 1000; // Z-index alto para ficar acima do conteúdo
+  margin-bottom: 1rem; // Separar do conteúdo principal
 }
 
 .navbar-brand {
@@ -198,5 +201,123 @@
   
   &:hover::after {
     transform: rotate(180deg);
+  }
+}
+
+// Estilos específicos para o menu do usuário
+.user-avatar {
+  img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: var(--transition);
+    
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: scale(1.1);
+    }
+  }
+}
+
+.user-name {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  transition: var(--transition);
+}
+
+// Container do dropdown do usuário
+.navbar-nav .nav-item.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  min-width: 280px;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(15px);
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  left: auto;
+  transform: none;
+  z-index: 10000; // Z-index muito alto para ficar acima de tudo
+  background: white; // Fundo branco sólido para destacar do header
+  border: 1px solid rgba(0, 0, 0, 0.1); // Borda sutil para separar do header
+  max-height: 250px; // Limitar altura para não cobrir muito conteúdo
+  overflow-y: auto; // Scroll se necessário
+  width: 280px; // Largura fixa para não expandir muito
+  
+  .dropdown-header {
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    
+    img {
+      width: 35px;
+      height: 35px;
+      object-fit: cover;
+      border: 2px solid #6c5ce7;
+    }
+  }
+  
+  .dropdown-item {
+    padding: 0.6rem 1rem;
+    color: #495057;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    margin: 0.1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    
+    &:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      transform: translateX(8px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    &.text-danger {
+      color: #dc3545 !important;
+      
+      &:hover {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white !important;
+      }
+    }
+    
+    i {
+      width: 18px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+  }
+  
+  .dropdown-divider {
+    margin: 0.6rem 0;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-width: 1px;
+  }
+}
+
+// Animação para o dropdown do usuário
+.dropdown-menu.show {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

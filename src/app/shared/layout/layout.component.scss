@@ -4,10 +4,20 @@
   flex-direction: column;
 }
 
+.content-separator {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.1) 50%, transparent 100%);
+  margin: 0.5rem 0;
+  position: relative;
+  z-index: 1;
+}
+
 .main-content {
   flex: 1;
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  position: relative;
+  z-index: 1; // Garantir que o conteúdo fique abaixo do dropdown
 }

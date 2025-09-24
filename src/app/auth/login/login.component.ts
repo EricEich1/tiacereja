@@ -56,25 +56,29 @@ export class LoginComponent {
         this.loading = false;
         console.error('Erro no login:', error);
         
-        let mensagemErro = 'Erro no login';
+        let mensagemErro = 'Email ou senha incorretos!';
         
-        if (error.status === 0) {
-          mensagemErro = 'Não foi possível conectar ao servidor. Verifique se o backend está rodando.';
-        } else if (error.status === 401) {
-          mensagemErro = 'Email ou senha incorretos!';
-        } else if (error.status === 404) {
-          mensagemErro = 'Endpoint de login não encontrado. Verifique a configuração da API.';
-        } else if (error.error && error.error.message) {
-          mensagemErro = error.error.message;
+        if (error.message) {
+          mensagemErro = error.message;
         }
         
         Swal.fire({
           icon: 'error',
           title: 'Erro no login',
-          text: mensagemErro,
-          footer: `Status: ${error.status || 'N/A'}`
+          text: mensagemErro
         });
       }
+    });
+  }
+
+  clearStorage() {
+    this.authService.clearAuthData();
+    Swal.fire({
+      icon: 'success',
+      title: 'Dados limpos!',
+      text: 'LocalStorage foi limpo com sucesso.',
+      timer: 1500,
+      showConfirmButton: false
     });
   }
 }
