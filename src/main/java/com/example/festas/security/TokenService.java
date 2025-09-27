@@ -18,8 +18,7 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    // A expiração em milissegundos (2 horas)
-    private static final long EXPIRATION_TIME_MS = 2 * 60 * 60 * 1000;
+    private static final long EXPIRATION_TIME_MS = 2 * 60 * 60 * 1000; // 2 horas
 
     public String gerarToken(Usuario usuario) {
         SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
