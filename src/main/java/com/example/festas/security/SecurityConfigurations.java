@@ -30,6 +30,9 @@ public class SecurityConfigurations {
                         // Libera os endpoints de login e registro para qualquer um
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/registrar").permitAll()
+
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
                         // Qualquer outra requisição precisa de autenticação
                         .anyRequest().authenticated()
                 )
