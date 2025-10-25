@@ -56,7 +56,9 @@ public class AuthController {
         }
 
         String senhaCriptografada = passwordEncoder.encode(dados.senha());
-        Usuario novoUsuario = new Usuario(null, dados.login(), senhaCriptografada);
+        Usuario novoUsuario = new Usuario();
+        novoUsuario.setLogin(dados.login());
+        novoUsuario.setSenha(senhaCriptografada);
         usuarioRepository.save(novoUsuario);
 
         return ResponseEntity.ok().build();

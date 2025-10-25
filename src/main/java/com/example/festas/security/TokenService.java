@@ -27,7 +27,7 @@ public class TokenService {
 
         return Jwts.builder()
                 .setIssuer("API Festas")
-                .setSubject(usuario.getLogin())
+                .setSubject(usuario.getUsername())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key, SignatureAlgorithm.HS256)
