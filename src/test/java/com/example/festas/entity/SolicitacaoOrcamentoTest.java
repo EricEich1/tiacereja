@@ -219,4 +219,19 @@ class SolicitacaoOrcamentoTest {
         // Assert
         assertFalse(solicitacao.getPrecisaMesasCadeiras());
     }
+
+        @Test
+    @DisplayName("TESTE DE UNIDADE - Cenário com validação de data de evento inválida que lança exceção")
+    void validarDataEvento_DataInvalida_DeveLancarExcecao() {
+        // Arrange
+        solicitacao.setDataCriacao(LocalDateTime.now());
+        solicitacao.setDataEvento(LocalDate.now().minusDays(1));
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            solicitacao.validarDataEvento();
+        });
+        
+        assertEquals("Data do evento não pode ser anterior à data atual", exception.getMessage());
+    }
 }

@@ -311,4 +311,35 @@ class SolicitacaoOrcamentoServiceTest {
         assertEquals("PENDENTE", resultado.getStatusOrcamento());
         verify(solicitacaoRepository, times(1)).save(solicitacao);
     }
+
+        @Test
+    @DisplayName("TESTE DE INTEGRAÇÃO - Cenário de validação de quantidade de solicitações por cliente")
+    void validarQuantidadeSolicitacoesPorCliente_LimiteExcedido_DeveLancarExcecao() {
+        // Arrange
+        Long clienteId = 1L;
+        List<SolicitacaoOrcamento> solicitacoesExistentes = Arrays.asList(
+            solicitacao, solicitacao, solicitacao, solicitacao, solicitacao
+        );
+        when(solicitacaoRepository.findByClienteIdAndDataCriacaoBetween(
+            eq(clienteId), 
+            any(LocalDateTime.class), 
+            any(LocalDateTime.class)
+        )).thenReturn(solicitacoesExistentes);
+
+        SolicitacaoOrcamento novaSolicitacao = new SolicitacaoOrcamento();
+        novaSolicitacao.setCliente(cliente);
+
+        // Act & Assert
+        BusinessException exception = assertThrows(BusinessException.class, () -> {
+            solicitacaoService.validarLimiteSolicitacoesPorCliente(novaSolicitacao);
+        });
+        
+        assertEquals("Cliente excedeu o limite de 5 solicitações por mês", exception.getMessage());
+        verify(solicitacaoRepository, times(1))
+            .findByClienteIdAndDataCriacaoBetween(
+                eq(clienteId), 
+                any(LocalDateTime.class), 
+                any(LocalDateTime.class)
+            );
+    }
 }

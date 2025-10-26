@@ -343,4 +343,28 @@ class SolicitacaoOrcamentoControllerTest {
 
         verify(solicitacaoService, never()).salvar(any(SolicitacaoOrcamento.class));
     }
+
+        @Test
+    @DisplayName("TESTE DE INTEGRAÇÃO - Cenário de validação de dados obrigatórios da solicitação")
+    void salvar_SolicitacaoComDadosObrigatoriosAusentes_DeveRetornarStatus400ComErros() throws Exception {
+        // Arrange
+        SolicitacaoOrcamento solicitacaoInvalida = new SolicitacaoOrcamento();
+        // Não define nenhum campo obrigatório
+
+        // Act & Assert
+        mockMvc.perform(post("/api/solicitacoes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(solicitacaoInvalida)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(4)))
+                .andExpect(jsonPath("$.errors", hasItems(
+                    containsString("cliente"),
+                    containsString("dataEvento"),
+                    containsString("quantidadeConvidados"),
+                    containsString("valorPretendido")
+                )));
+
+        verify(solicitacaoService, never()).salvar(any(SolicitacaoOrcamento.class));
+    }
 }
