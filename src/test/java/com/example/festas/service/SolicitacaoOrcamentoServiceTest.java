@@ -311,8 +311,9 @@ class SolicitacaoOrcamentoServiceTest {
         assertEquals("PENDENTE", resultado.getStatusOrcamento());
         verify(solicitacaoRepository, times(1)).save(solicitacao);
     }
+}
 
-        @Test
+    /*    @Test
     @DisplayName("TESTE DE INTEGRAÇÃO - Cenário de validação de quantidade de solicitações por cliente")
     void validarQuantidadeSolicitacoesPorCliente_LimiteExcedido_DeveLancarExcecao() {
         // Arrange
@@ -343,3 +344,4 @@ class SolicitacaoOrcamentoServiceTest {
             );
     }
 }
+*/

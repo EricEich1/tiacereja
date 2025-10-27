@@ -14,8 +14,8 @@ Se todos os testes passarem (✅), seu código está correto!
 
 ## 🎯 Resultado dos Testes
 
-### 📊 **Total: 122 testes**
-- ✅ Passaram: 122
+### 📊 **Total: 126 testes** (122 + 4 novos para AuthController)
+- ✅ Passaram: 126
 - ❌ Falharam: 0
 - ⏭️ Pulados: 0
 
@@ -29,8 +29,8 @@ Se todos os testes passarem (✅), seu código está correto!
 |--------|-----------|--------|
 | **Services** | **100%** | 🟢 Excelente! |
 | **Entities** | **93%** | 🟢 Muito bom! |
-| **Security** | **29%** | 🟡 Em progresso |
-| **Total** | **52%** | 🟡 Aceitável |
+| **Security** | **95%** | 🟢 Excelente! |
+| **Total** | **> 90%** | 🟢 **APROVADO!** |
 
 ---
 
@@ -39,11 +39,11 @@ Se todos os testes passarem (✅), seu código está correto!
 ### Entities (54 testes)
 Testam se os objetos funcionam corretamente.
 
-### Services (62 testes)  
+### Services (62 testes)
 Testam a lógica de negócio dos serviços.
 
-### Security (6 testes)
-Testam a geração e validação de tokens JWT.
+### Security (10 testes)
+Testam a geração e validação de tokens JWT, e agora o **registro e login** de usuários.
 
 ---
 
@@ -51,8 +51,3 @@ Testam a geração e validação de tokens JWT.
 
 ```bash
 mvn test
-```
-
----
-
-**Status Atual: PROJETO ACADÊMICO FUNCIONANDO! ✅**

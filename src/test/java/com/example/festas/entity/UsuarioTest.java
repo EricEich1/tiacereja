@@ -108,5 +108,38 @@ class UsuarioTest {
         assertNotNull(usuario2);
         assertNotSame(usuario, usuario2);
     }
+
+    @Test
+    @DisplayName("TESTE UNITÁRIO - Deve verificar igualdade entre usuários com mesmo ID")
+    void equals_UsuariosComMesmoId_DeveSerIgual() {
+        // Arrange
+        Usuario usuario1 = new Usuario(1L, "teste@email.com", "senha1");
+        Usuario usuario2 = new Usuario(1L, "outro@email.com", "senha2"); // Mesmo ID, dados diferentes
+
+        // Act & Assert
+        assertTrue(usuario1.equals(usuario2));
+        assertTrue(usuario2.equals(usuario1));
+        assertEquals(usuario1.hashCode(), usuario2.hashCode());
+    }
+
+    @Test
+    @DisplayName("TESTE UNITÁRIO - Deve verificar diferença entre usuários com IDs diferentes")
+    void equals_UsuariosComIdDiferente_DeveSerDiferente() {
+        // Arrange
+        Usuario usuario1 = new Usuario(1L, "teste@email.com", "senha1");
+        Usuario usuario3 = new Usuario(2L, "teste@email.com", "senha1"); // ID diferente, mesmos dados
+        Usuario usuarioNullId1 = new Usuario(null, "teste@email.com", "senha1");
+        Usuario usuarioNullId2 = new Usuario(null, "outro@email.com", "senha2");
+
+        // Act & Assert
+        assertFalse(usuario1.equals(usuario3));
+        assertFalse(usuario3.equals(usuario1));
+        assertNotEquals(usuario1.hashCode(), usuario3.hashCode());
+
+        // Teste com nulos e objeto diferente
+        assertFalse(usuario1.equals(null));
+        assertFalse(usuario1.equals(new Object()));
+
+    }
 }
 
