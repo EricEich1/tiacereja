@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClienteService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">festas</a> &gt; <a href="index.source.html" class="el_package">com.example.festas.service</a> &gt; <span class="el_source">ClienteService.java</span></div><h1>ClienteService.java</h1><pre class="source lang-java linenums">package com.example.festas.service;
+
+import com.example.festas.entity.Cliente;
+import com.example.festas.repository.ClienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+<span class="fc" id="L12">public class ClienteService {</span>
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    public List&lt;Cliente&gt; buscarTodos() {
+<span class="fc" id="L18">        return clienteRepository.findAll();</span>
+    }
+
+    public Optional&lt;Cliente&gt; buscarPorId(Long id) {
+<span class="fc" id="L22">        return clienteRepository.findById(id);</span>
+    }
+
+    public Cliente salvar(Cliente cliente) {
+        // REGRA DE NEGÓCIO COMPLEXA: Verificar status do cadastro antes de persistir
+<span class="fc bfc" id="L27" title="All 4 branches covered.">        if (cliente.getTelefone() == null || cliente.getTelefone().trim().isEmpty()) {</span>
+<span class="fc" id="L28">            cliente.setStatusCadastro(&quot;INCOMPLETO&quot;);</span>
+        } else {
+<span class="fc" id="L30">            cliente.setStatusCadastro(&quot;COMPLETO&quot;);</span>
+        }
+
+<span class="fc" id="L33">        return clienteRepository.save(cliente);</span>
+    }
+
+    public Cliente atualizar(Long id, Cliente cliente) {
+<span class="fc" id="L37">        Optional&lt;Cliente&gt; clienteExistente = clienteRepository.findById(id);</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (clienteExistente.isPresent()) {</span>
+<span class="fc" id="L39">            cliente.setId(id);</span>
+<span class="fc" id="L40">            return salvar(cliente);</span>
+        }
+<span class="fc" id="L42">        throw new RuntimeException(&quot;Cliente não encontrado com ID: &quot; + id);</span>
+    }
+
+    public void deletar(Long id) {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (!clienteRepository.existsById(id)) {</span>
+<span class="fc" id="L47">            throw new RuntimeException(&quot;Não é possível deletar cliente inexistente&quot;);</span>
+        }
+<span class="fc" id="L49">        clienteRepository.deleteById(id);</span>
+<span class="fc" id="L50">    }</span>
+
+    public List&lt;Cliente&gt; buscarPorNome(String nome) {
+<span class="fc" id="L53">        return clienteRepository.findByNomeIgnoreCaseContaining(nome);</span>
+    }
+
+    public Cliente buscarPorTelefone(String telefone) {
+<span class="fc" id="L57">        return clienteRepository.findByTelefone(telefone);</span>
+    }
+
+    public List&lt;Cliente&gt; buscarPorStatus(String status) {
+<span class="fc" id="L61">        return clienteRepository.findByStatusCadastro(status);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

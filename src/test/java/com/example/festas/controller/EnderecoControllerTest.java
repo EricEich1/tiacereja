@@ -22,7 +22,19 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(EnderecoController.class)
+
+@WebMvcTest(controllers = EnderecoController.class,
+        excludeAutoConfiguration = {
+                org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration.class
+        },
+        excludeFilters = {
+                @org.springframework.context.annotation.ComponentScan.Filter(
+                        type = org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE,
+                        classes = com.example.festas.security.SecurityFilter.class
+                )
+        })
 class EnderecoControllerTest {
 
     @Autowired
@@ -112,6 +124,12 @@ class EnderecoControllerTest {
     @DisplayName("TESTE DE INTEGRAÇÃO - Deve falhar ao atualizar endereço inexistente e retornar 404")
     void atualizar_Inexistente_DeveRetornarStatus404() throws Exception {
         Endereco endereco = new Endereco();
+        endereco.setRua("Rua Teste");
+        endereco.setNumero("123");
+        endereco.setBairro("Centro");
+        endereco.setCidade("Cidade Teste");
+        endereco.setEstado("SP");
+        endereco.setCep("12345-678");
         when(enderecoService.atualizar(eq(99L), any(Endereco.class))).thenThrow(new RuntimeException());
 
         mockMvc.perform(put("/api/enderecos/99")
@@ -130,7 +148,7 @@ class EnderecoControllerTest {
     @Test
     @DisplayName("TESTE DE INTEGRAÇÃO - Deve falhar ao deletar endereço inexistente e retornar 404")
     void deletar_Inexistente_DeveRetornarStatus404() throws Exception {
-        when(enderecoService.atualizar(eq(99L), any(Endereco.class))).thenThrow(new RuntimeException());
+        doThrow(new RuntimeException("Não encontrado")).when(enderecoService).deletar(99L);
 
         mockMvc.perform(delete("/api/enderecos/99"))
                 .andExpect(status().isNotFound());

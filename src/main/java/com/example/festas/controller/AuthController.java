@@ -4,7 +4,7 @@ import com.example.festas.entity.Usuario;
 import com.example.festas.repository.UsuarioRepository;
 import com.example.festas.security.DadosAutenticacao;
 import com.example.festas.security.DadosTokenJWT;
-import com.example.festas.security.TokenService;
+import com.example.festas.security.ITokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class AuthController {
     private AuthenticationManager manager;
 
     @Autowired
-    private TokenService tokenService;
+    private ITokenService tokenService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;

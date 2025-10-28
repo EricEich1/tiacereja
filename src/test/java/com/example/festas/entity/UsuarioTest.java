@@ -113,8 +113,15 @@ class UsuarioTest {
     @DisplayName("TESTE UNITÁRIO - Deve verificar igualdade entre usuários com mesmo ID")
     void equals_UsuariosComMesmoId_DeveSerIgual() {
         // Arrange
-        Usuario usuario1 = new Usuario(1L, "teste@email.com", "senha1");
-        Usuario usuario2 = new Usuario(1L, "outro@email.com", "senha2"); // Mesmo ID, dados diferentes
+        Usuario usuario1 = new Usuario();
+        usuario1.setId(1L);
+        usuario1.setLogin("teste@email.com");
+        usuario1.setSenha("senha1");
+        
+        Usuario usuario2 = new Usuario();
+        usuario2.setId(1L);
+        usuario2.setLogin("outro@email.com");
+        usuario2.setSenha("senha2");
 
         // Act & Assert
         assertTrue(usuario1.equals(usuario2));
@@ -126,10 +133,25 @@ class UsuarioTest {
     @DisplayName("TESTE UNITÁRIO - Deve verificar diferença entre usuários com IDs diferentes")
     void equals_UsuariosComIdDiferente_DeveSerDiferente() {
         // Arrange
-        Usuario usuario1 = new Usuario(1L, "teste@email.com", "senha1");
-        Usuario usuario3 = new Usuario(2L, "teste@email.com", "senha1"); // ID diferente, mesmos dados
-        Usuario usuarioNullId1 = new Usuario(null, "teste@email.com", "senha1");
-        Usuario usuarioNullId2 = new Usuario(null, "outro@email.com", "senha2");
+        Usuario usuario1 = new Usuario();
+        usuario1.setId(1L);
+        usuario1.setLogin("teste@email.com");
+        usuario1.setSenha("senha1");
+        
+        Usuario usuario3 = new Usuario();
+        usuario3.setId(2L);
+        usuario3.setLogin("teste@email.com");
+        usuario3.setSenha("senha1");
+        
+        Usuario usuarioNullId1 = new Usuario();
+        usuarioNullId1.setId(null);
+        usuarioNullId1.setLogin("teste@email.com");
+        usuarioNullId1.setSenha("senha1");
+        
+        Usuario usuarioNullId2 = new Usuario();
+        usuarioNullId2.setId(null);
+        usuarioNullId2.setLogin("outro@email.com");
+        usuarioNullId2.setSenha("senha2");
 
         // Act & Assert
         assertFalse(usuario1.equals(usuario3));

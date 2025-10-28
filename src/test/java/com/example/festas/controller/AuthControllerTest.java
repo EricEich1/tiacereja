@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Import;
 import com.example.festas.entity.Usuario;
 import com.example.festas.repository.UsuarioRepository;
 import com.example.festas.security.DadosAutenticacao;
-import com.example.festas.security.TokenService;
+import com.example.festas.security.ITokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +43,7 @@ class AuthControllerTest {
     private AuthenticationManager manager;
 
     @MockBean
-    private TokenService tokenService;
+    private ITokenService tokenService;
 
     @MockBean
     private UsuarioRepository usuarioRepository;

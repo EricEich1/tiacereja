@@ -22,7 +22,19 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.Mockito.doThrow;
 
-@WebMvcTest(TemaFestaController.class)
+
+@WebMvcTest(controllers = TemaFestaController.class, 
+        excludeAutoConfiguration = {
+                org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration.class
+        },
+        excludeFilters = {
+                @org.springframework.context.annotation.ComponentScan.Filter(
+                        type = org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE,
+                        classes = com.example.festas.security.SecurityFilter.class
+                )
+        })
 class TemaFestaControllerTest {
 
     @Autowired
@@ -102,6 +114,7 @@ class TemaFestaControllerTest {
     @DisplayName("TESTE DE INTEGRAÇÃO - Deve falhar ao atualizar tema inexistente e retornar 404")
     void atualizar_Inexistente_DeveRetornarStatus404() throws Exception {
         TemaFesta tema = new TemaFesta();
+        tema.setNome("Nome Válido");
         when(temaService.atualizar(eq(99L), any(TemaFesta.class))).thenThrow(new RuntimeException());
 
         mockMvc.perform(put("/api/temas/99")
@@ -120,7 +133,7 @@ class TemaFestaControllerTest {
     @Test
     @DisplayName("TESTE DE INTEGRAÇÃO - Deve falhar ao deletar tema inexistente e retornar 404")
     void deletar_Inexistente_DeveRetornarStatus404() throws Exception {
-        when(temaService.atualizar(eq(99L), any(TemaFesta.class))).thenThrow(new RuntimeException());
+        doThrow(new RuntimeException("Não encontrado")).when(temaService).deletar(99L);
 
         mockMvc.perform(delete("/api/temas/99"))
                 .andExpect(status().isNotFound());

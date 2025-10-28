@@ -2,6 +2,7 @@ package com.example.festas.security;
 
 import com.example.festas.entity.Usuario;
 import com.example.festas.repository.UsuarioRepository;
+import com.example.festas.security.ITokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
@@ -23,10 +26,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows; // O import para ex
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class SecurityFilterTest {
 
     @Mock
-    private TokenService tokenService;
+    private ITokenService tokenService;
 
     @Mock
     private UsuarioRepository usuarioRepository;

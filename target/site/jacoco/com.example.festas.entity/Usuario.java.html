@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Usuario.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">festas</a> &gt; <a href="index.source.html" class="el_package">com.example.festas.entity</a> &gt; <span class="el_source">Usuario.java</span></div><h1>Usuario.java</h1><pre class="source lang-java linenums">package com.example.festas.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
+
+@Entity
+@Table(name = &quot;usuarios&quot;)
+@Getter
+<span class="fc" id="L21">@Setter</span>
+<span class="fc" id="L22">@NoArgsConstructor</span>
+<span class="nc" id="L23">@AllArgsConstructor</span>
+<span class="pc bpc" id="L24" title="6 of 14 branches missed.">@EqualsAndHashCode(of = &quot;id&quot;)</span>
+public class Usuario implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<span class="fc" id="L29">    private Long id;</span>
+
+    @NotBlank
+    @Email
+    @Column(unique = true)
+<span class="nc" id="L34">    private String login; // Será o email</span>
+
+    @NotBlank
+<span class="nc" id="L37">    private String senha;</span>
+
+    // Implementação dos métodos do UserDetails
+    @Override
+    public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() {
+        // Por enquanto, todo usuário terá a role &quot;USER&quot;.
+        // Você pode evoluir para ter uma tabela de roles.
+<span class="fc" id="L44">        return List.of(new SimpleGrantedAuthority(&quot;ROLE_USER&quot;));</span>
+    }
+
+    @Override
+    public String getPassword() {
+<span class="fc" id="L49">        return this.senha;</span>
+    }
+
+    @Override
+    public String getUsername() {
+<span class="fc" id="L54">        return this.login;</span>
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+<span class="fc" id="L59">        return true;</span>
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+<span class="fc" id="L64">        return true;</span>
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+<span class="fc" id="L69">        return true;</span>
+    }
+
+    @Override
+    public boolean isEnabled() {
+<span class="fc" id="L74">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

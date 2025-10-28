@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SolicitacaoOrcamentoController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">festas</a> &gt; <a href="index.source.html" class="el_package">com.example.festas.controller</a> &gt; <span class="el_source">SolicitacaoOrcamentoController.java</span></div><h1>SolicitacaoOrcamentoController.java</h1><pre class="source lang-java linenums">package com.example.festas.controller;
+
+import com.example.festas.entity.SolicitacaoOrcamento;
+import com.example.festas.service.SolicitacaoOrcamentoService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping(&quot;/api/solicitacoes&quot;)
+<span class="fc" id="L16">public class SolicitacaoOrcamentoController {</span>
+
+    @Autowired
+    private SolicitacaoOrcamentoService solicitacaoService;
+
+    @GetMapping
+    public ResponseEntity&lt;List&lt;SolicitacaoOrcamento&gt;&gt; buscarTodos() {
+<span class="fc" id="L23">        List&lt;SolicitacaoOrcamento&gt; solicitacoes = solicitacaoService.buscarTodos();</span>
+<span class="fc" id="L24">        return ResponseEntity.ok(solicitacoes);</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;SolicitacaoOrcamento&gt; buscarPorId(@PathVariable Long id) {
+<span class="fc" id="L29">        Optional&lt;SolicitacaoOrcamento&gt; solicitacao = solicitacaoService.buscarPorId(id);</span>
+<span class="fc" id="L30">        return solicitacao.map(ResponseEntity::ok)</span>
+<span class="fc" id="L31">                .orElse(ResponseEntity.notFound().build());</span>
+    }
+
+    @PostMapping
+    public ResponseEntity&lt;SolicitacaoOrcamento&gt; salvar(@Valid @RequestBody SolicitacaoOrcamento solicitacao) {
+        try {
+<span class="fc" id="L37">            SolicitacaoOrcamento solicitacaoSalva = solicitacaoService.salvar(solicitacao);</span>
+<span class="fc" id="L38">            return ResponseEntity.status(HttpStatus.CREATED).body(solicitacaoSalva);</span>
+<span class="nc" id="L39">        } catch (RuntimeException e) {</span>
+<span class="nc" id="L40">            return ResponseEntity.badRequest().build();</span>
+        }
+    }
+
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;SolicitacaoOrcamento&gt; atualizar(@PathVariable Long id, @Valid @RequestBody SolicitacaoOrcamento solicitacao) {
+        try {
+<span class="fc" id="L47">            SolicitacaoOrcamento solicitacaoAtualizada = solicitacaoService.atualizar(id, solicitacao);</span>
+<span class="fc" id="L48">            return ResponseEntity.ok(solicitacaoAtualizada);</span>
+<span class="fc" id="L49">        } catch (RuntimeException e) {</span>
+<span class="fc" id="L50">            return ResponseEntity.notFound().build();</span>
+        }
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deletar(@PathVariable Long id) {
+        try {
+<span class="fc" id="L57">            solicitacaoService.deletar(id);</span>
+<span class="fc" id="L58">            return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L59">        } catch (RuntimeException e) {</span>
+<span class="fc" id="L60">            return ResponseEntity.notFound().build();</span>
+        }
+    }
+
+    @GetMapping(&quot;/status&quot;)
+    public ResponseEntity&lt;List&lt;SolicitacaoOrcamento&gt;&gt; buscarPorStatus(@RequestParam String status) {
+<span class="fc" id="L66">        List&lt;SolicitacaoOrcamento&gt; solicitacoes = solicitacaoService.buscarPorStatus(status);</span>
+<span class="fc" id="L67">        return ResponseEntity.ok(solicitacoes);</span>
+    }
+
+    @GetMapping(&quot;/cliente/{clienteId}&quot;)
+    public ResponseEntity&lt;List&lt;SolicitacaoOrcamento&gt;&gt; buscarPorCliente(@PathVariable Long clienteId) {
+<span class="fc" id="L72">        List&lt;SolicitacaoOrcamento&gt; solicitacoes = solicitacaoService.buscarPorCliente(clienteId);</span>
+<span class="fc" id="L73">        return ResponseEntity.ok(solicitacoes);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
