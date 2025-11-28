@@ -29,7 +29,8 @@ public class SolicitacaoOrcamentoService {
             throw new RuntimeException("Não é possível criar solicitação sem associar a um cliente");
         }
 
-        // REGRA DE NEGÓCIO COMPLEXA: Definir status e data de criação antes de persistir
+        // REGRA DE NEGÓCIO COMPLEXA: Definir status e data de criação antes de
+        // persistir
         if (solicitacao.getStatusOrcamento() == null) {
             solicitacao.setStatusOrcamento("PENDENTE");
         }
@@ -61,5 +62,35 @@ public class SolicitacaoOrcamentoService {
 
     public List<SolicitacaoOrcamento> buscarPorCliente(Long clienteId) {
         return solicitacaoRepository.findByClienteIdOrderByDataCriacaoDesc(clienteId);
+    }
+
+    /**
+     * Verifica se uma solicitação pertence ao usuário logado
+     */
+    public boolean pertenceAoUsuario(Long solicitacaoId, String emailUsuario) {
+        Optional<SolicitacaoOrcamento> solicitacao = solicitacaoRepository.findById(solicitacaoId);
+        if (solicitacao.isEmpty()) {
+            return false;
+        }
+
+        // Verificar se o cliente da solicitação está vinculado ao usuário
+        if (solicitacao.get().getCliente() != null &&
+                solicitacao.get().getCliente().getUsuario() != null) {
+            return solicitacao.get().getCliente().getUsuario().getLogin().equals(emailUsuario);
+        }
+
+        return false;
+    }
+
+    /**
+     * Busca solicitações do usuário logado (baseado no cliente vinculado)
+     */
+    public List<SolicitacaoOrcamento> buscarPorUsuario(String emailUsuario) {
+        // Buscar todas as solicitações onde o cliente está vinculado ao usuário
+        return solicitacaoRepository.findAll().stream()
+                .filter(s -> s.getCliente() != null &&
+                        s.getCliente().getUsuario() != null &&
+                        s.getCliente().getUsuario().getLogin().equals(emailUsuario))
+                .toList();
     }
 }

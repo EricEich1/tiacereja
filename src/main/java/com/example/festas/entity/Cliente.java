@@ -23,23 +23,61 @@ public class Cliente {
 
     private String statusCadastro; // COMPLETO ou INCOMPLETO
 
+    @OneToOne
+    @JoinColumn(name = "usuario_id", unique = true)
+    @JsonIgnoreProperties({ "senha", "roles" })
+    private Usuario usuario;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("cliente")
     private List<SolicitacaoOrcamento> solicitacoes;
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-    
-    public String getTelefone() { return telefone; }
-    public void setTelefone(String telefone) { this.telefone = telefone; }
-    
-    public String getStatusCadastro() { return statusCadastro; }
-    public void setStatusCadastro(String statusCadastro) { this.statusCadastro = statusCadastro; }
-    
-    public List<SolicitacaoOrcamento> getSolicitacoes() { return solicitacoes; }
-    public void setSolicitacoes(List<SolicitacaoOrcamento> solicitacoes) { this.solicitacoes = solicitacoes; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getStatusCadastro() {
+        return statusCadastro;
+    }
+
+    public void setStatusCadastro(String statusCadastro) {
+        this.statusCadastro = statusCadastro;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<SolicitacaoOrcamento> getSolicitacoes() {
+        return solicitacoes;
+    }
+
+    public void setSolicitacoes(List<SolicitacaoOrcamento> solicitacoes) {
+        this.solicitacoes = solicitacoes;
+    }
 }
